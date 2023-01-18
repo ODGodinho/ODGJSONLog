@@ -83,7 +83,9 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
      * @returns {string}
      */
     protected getInstance(): string {
-        return this.instanceId!
+        const instanceProperty = this.instanceId ?? "";
+
+        return instanceProperty
             || process.env.HOSTNAME!
             || process.env.CONTAINER_ID!
             || "unknown";

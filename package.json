@@ -1,7 +1,7 @@
 {
     "name": "@odg/json-log",
     "version": "0.0.0",
-    "description": "Stanley TheTemplate for typescript project",
+    "description": "parse your log in JSON formatter",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "homepage": "",

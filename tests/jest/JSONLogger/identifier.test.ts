@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 
 import { LogLevel } from "@odg/log";
 
-import { JSONLoggerPlugin, JSONLogger } from "../../../../src";
+import { JSONLoggerPlugin, JSONLogger } from "../../../src";
 
 describe("Test Identifier log fill", () => {
     const logger = new JSONLoggerPlugin("");

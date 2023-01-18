@@ -970,6 +970,29 @@
     eslint-plugin-yml "^1.3.0"
     toml-eslint-parser "^0.4.0"
 
+"@odg/exception@*", "@odg/exception@^1.0.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@odg/exception/-/exception-1.3.0.tgz#6836756f86242c7089fd86753dbafd442fc21ca8"
+  integrity sha512-z5Ka10qpQpel/QQzL4wLvye4Q1c16mnxgG9Dd6WN+co/SiCctfjj0epCyqIL72vcO/A/ND+saJI0Jh09lW2i/g==
+  dependencies:
+    "@odg/tsconfig" "*"
+
+"@odg/log@*":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@odg/log/-/log-1.2.0.tgz#52b25c26c647d89c85204a92ebac4204fa0395fe"
+  integrity sha512-N2Rl4QoKQTiNRhxwuVbGH1wYJqoyajeltNDjoheST8WxPEJQYhs/H0GA/JEE+XqWwsGvCgHNkuPGL1vmZXtQ7g==
+  dependencies:
+    "@odg/exception" "*"
+    chalk "^4"
+
+"@odg/message@*":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@odg/message/-/message-1.0.0.tgz#1031a4131a66fb03d9a56c9b3675172fc8174dff"
+  integrity sha512-7CqQIo0qBKhEQxgMCa9i//gBmXLDncBBNxtv2nqsJTU80cFgD04EIIxJgb33ewx5ZT2bH6FuizBxRvEb0PLoWw==
+  dependencies:
+    "@odg/exception" "^1.0.0"
+    "@odg/tsconfig" "*"
+
 "@odg/tsconfig@*":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@odg/tsconfig/-/tsconfig-1.0.0.tgz#13b984a7b7c8fa0553e7b9d3c2e5035b5be09b44"
@@ -1836,7 +1859,7 @@ chalk@^2.0.0, chalk@^2.3.2:
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
 
-chalk@^4.0.0, chalk@^4.1.0, chalk@^4.1.2:
+chalk@^4, chalk@^4.0.0, chalk@^4.1.0, chalk@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-4.1.2.tgz#aac4e2b7734a740867aeb16bf02aad556a1e7a01"
   integrity sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==
@@ -2378,6 +2401,13 @@ error-ex@^1.3.1:
   integrity sha512-7dFHNmqeFSEt2ZBsCriorKnn3Z2pj+fd9kmI6QoWw4//DL+icEBfc0U7qJCisqrTsKTjw4fNFy2pW9OqStD84g==
   dependencies:
     is-arrayish "^0.2.1"
+
+error-stack-parser@^2.1.4:
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/error-stack-parser/-/error-stack-parser-2.1.4.tgz#229cb01cdbfa84440bfa91876285b94680188286"
+  integrity sha512-Sk5V6wVazPhq5MhpO+AUxJn5x7XSXGl1R93Vn7i+zS15KDVxQijejNCrz8340/2bgLBjR9GtEG8ZVKONDjcqGQ==
+  dependencies:
+    stackframe "^1.3.4"
 
 es-abstract@^1.19.0, es-abstract@^1.20.4:
   version "1.20.5"
@@ -6108,6 +6138,11 @@ stack-utils@^2.0.3:
   integrity sha512-XlkWvfIm6RmsWtNJx+uqtKLS8eqFbxUg0ZzLXqY0caEy9l7hruX8IpiDnjsLavoBgqCCR71TqWO8MaXYheJ3RQ==
   dependencies:
     escape-string-regexp "^2.0.0"
+
+stackframe@^1.3.4:
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/stackframe/-/stackframe-1.3.4.tgz#b881a004c8c149a5e8efef37d51b16e412943310"
+  integrity sha512-oeVtt7eWQS+Na6F//S4kJ2K2VbRlS9D43mAlMyVpVWovy9o+jfgH8O9agzANzaiLjclA0oYzUXEM4PurhSUChw==
 
 stream-combiner2@~1.1.1:
   version "1.1.1"

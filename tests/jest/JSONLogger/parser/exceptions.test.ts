@@ -1,3 +1,4 @@
+import { Exception } from "@odg/exception";
 import { JSONLoggerPlugin } from "../../../../src";
 import exceptionsCascade from "../../Helpers/exceptionsCascade";
 import { functionException } from "../../Helpers/functionException";
@@ -16,6 +17,20 @@ describe("Test Exception Parser", () => {
         expect(exceptionObject).toMatchObject({
             ...exception.data,
         });
+
+        return true;
+    });
+
+    test("Test Exception Without Stack", async () => {
+        const exception = new Exception("Teste Exception");
+        exception.stack = undefined;
+
+        const exceptionObject = await logger["parseException"](exception);
+        expect(exceptionObject).toEqual(
+            expect.objectContaining({
+                stack: undefined,
+            }),
+        );
 
         return true;
     });

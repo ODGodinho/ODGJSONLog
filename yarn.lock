@@ -980,11 +980,9 @@
     toml-eslint-parser "^0.4.0"
 
 "@odg/exception@*", "@odg/exception@^1.0.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@odg/exception/-/exception-1.3.0.tgz#6836756f86242c7089fd86753dbafd442fc21ca8"
-  integrity sha512-z5Ka10qpQpel/QQzL4wLvye4Q1c16mnxgG9Dd6WN+co/SiCctfjj0epCyqIL72vcO/A/ND+saJI0Jh09lW2i/g==
-  dependencies:
-    "@odg/tsconfig" "*"
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/@odg/exception/-/exception-1.3.2.tgz#c7b3e1e7ab02eadb936e539083761b7015ebdbd5"
+  integrity sha512-adZGbDcmq5y8TW3JKFuXHwcGhL8KYdzMU7bGIWSjlpa7TS9By+27K/15ZwcU/j76jKOaORJ+9bfXkezRf5OQew==
 
 "@odg/log@*":
   version "1.3.0"

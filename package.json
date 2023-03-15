@@ -4,10 +4,10 @@
     "description": "parse your log in JSON formatter",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
-    "homepage": "",
+    "homepage": "https://github.com/ODGodinho/ODG-JSONLog",
     "repository": {
         "type": "git",
-        "url": ""
+        "url": "https://github.com/ODGodinho/ODG-JSONLog"
     },
     "scripts": {
         "build": "rimraf build && tsc --project ./tsconfig.build.json",

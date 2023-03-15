@@ -88,6 +88,7 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
         return instanceProperty
             || process.env.HOSTNAME!
             || process.env.CONTAINER_ID!
+            || process.env.DOCKER_CONTAINER_UUID!
             || "unknown";
     }
 

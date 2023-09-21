@@ -1,5 +1,6 @@
 import { UnknownException } from "@odg/exception";
 import { LogLevel } from "@odg/log";
+import { vi } from "vitest";
 
 import { JSONLoggerPlugin } from "../../../../src";
 
@@ -10,8 +11,8 @@ interface LoggerGithubType {
 
 describe("Test Git Release/Branch", () => {
     const logger = new JSONLoggerPlugin("appName");
-    const spyRelease = jest.spyOn(logger as unknown as LoggerGithubType, "getGitRelease");
-    const spyBranch = jest.spyOn(logger as unknown as LoggerGithubType, "getGitBranch");
+    const spyRelease = vi.spyOn(logger as unknown as LoggerGithubType, "getGitRelease");
+    const spyBranch = vi.spyOn(logger as unknown as LoggerGithubType, "getGitBranch");
     const spyList = [ spyRelease, spyBranch ];
 
     for (const spy of spyList) {

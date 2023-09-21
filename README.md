@@ -78,11 +78,13 @@ yarn add @odg/json-log
 ### 🎲 Implementation
 
 ```typescript
-const logger = new ConsoleLogger(); // Or Other Class Logger
-const plugin = new JSONLoggerPlugin(
+const logger = new Logger(); // Or Other Class Logger
+const consoleLogger = new ConsoleLogger(); // Or Other Class Logger
+const processor = new JSONLoggerPlugin(
     "appName",
 );
-logger.use(plugin);
+logger.pushHandler(consoleLogger);
+logger.pushProcessor(processor);
 
 plugin.setIdentifier(randomUUID());
 ```

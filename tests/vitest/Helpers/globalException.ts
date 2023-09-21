@@ -6,7 +6,7 @@ export const globalException: ExceptionType = {
     data: {
         type: "JSONParserUnknownException", // Exception Name
         message: "anything",
-        functionName: "Object.<anonymous>",
+        functionName: undefined,
         fileLine: 5, // Top line number
         fileColumn: 16, // Top column number
     },

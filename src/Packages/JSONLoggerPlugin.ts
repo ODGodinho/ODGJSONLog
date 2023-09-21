@@ -71,7 +71,6 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
      * Example: Request ID, Transaction ID, Crawler Process, etc
      *
      * @param {string} identifier Unique identifier
-     * @memberof JSONLoggerPlugin
      */
     public setIdentifier(identifier: string): void {
         this.identifier = identifier;
@@ -141,7 +140,7 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
      * If Message is a Exception, get All Exception Preview and parse to ExceptionObjectLoggerInterface
      *
      * @param {unknown} exception Possible Exception
-     * @returns {Promise<ExceptionObjectLoggerInterface | undefined>}
+     * @returns {Promise<ExceptionObjectLoggerInterface[] | undefined>}
      */
     protected async parseExceptionPreview(exception: unknown): Promise<ExceptionObjectLoggerInterface[] | undefined> {
         if (!(exception instanceof Exception)) return;
@@ -162,10 +161,10 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
     /**
      * Parser Request and Response
      *
+     * @memberof JSONLoggerPlugin
      * @protected
      * @param {unknown} message Possible Message/Request
      * @returns {Promise<LoggerObjectRequestInterface | undefined>}
-     * @memberof JSONLoggerPlugin
      */
     protected async parseRequest(message: unknown): Promise<LoggerObjectRequestInterface | undefined> {
         if (!await this.isRequestOrResponseMessage(message)) return;
@@ -185,10 +184,10 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
     /**
      * Get Response
      *
+     * @memberof JSONLoggerPlugin
      * @protected
      * @param {unknown} message Possible Request/Message
      * @returns {Promise<ResponseInterface<unknown, unknown> | undefined>}
-     * @memberof JSONLoggerPlugin
      */
     protected async getResponseMessage(message: unknown): Promise<ResponseInterface<unknown, unknown> | undefined> {
         if (message instanceof MessageException) return message.response;
@@ -200,10 +199,10 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
     /**
      * Get Request
      *
+     * @memberof JSONLoggerPlugin
      * @protected
      * @param {unknown} message Possible Request/Message
-     * @returns {Promise<ResponseInterface<unknown, unknown> | undefined>}
-     * @memberof JSONLoggerPlugin
+     * @returns {Promise<RequestInterface<unknown> | undefined>}
      */
     protected async getRequestMessage(message: unknown): Promise<RequestInterface<unknown> | undefined> {
         if (message instanceof MessageException) return message.request;
@@ -216,10 +215,10 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
     /**
      * Check Is Message Response or Request or Exception Message
      *
+     * @memberof JSONLoggerPlugin
      * @protected
      * @param {unknown} message Possible Message/Request
      * @returns {Promise<boolean>}
-     * @memberof JSONLoggerPlugin
      */
     protected async isRequestOrResponseMessage(message: unknown): Promise<boolean> {
         return message instanceof MessageException
@@ -227,12 +226,6 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
             || this.isRequestMessage(message);
     }
 
-    /**
-     * Check is Response Message
-     *
-     * @param {unknown} message Possible Response/Message
-     * @returns {boolean}
-     */
     protected isResponseMessage(message: unknown): message is ResponseInterface<unknown, unknown> {
         return Object.prototype.hasOwnProperty.call(message, "data")
             && Object.prototype.hasOwnProperty.call(message, "status")
@@ -240,12 +233,6 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
             && Object.prototype.hasOwnProperty.call(message, "request");
     }
 
-    /**
-     * Check is Request Message
-     *
-     * @param {unknown} message Possible Request/Message
-     * @returns {boolean}
-     */
     protected isRequestMessage(message: unknown): message is RequestInterface<unknown> {
         return Object.prototype.hasOwnProperty.call(message, "url")
             && Object.prototype.hasOwnProperty.call(message, "method");

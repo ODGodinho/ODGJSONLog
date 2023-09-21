@@ -1,6 +1,6 @@
 import { type ResponseInterface } from "@odg/message";
 
-import { JSONLoggerPlugin } from "../../../../src";
+import { JSONLoggerPlugin } from "~";
 
 const headers = {
     "Content-Type": "application/html",

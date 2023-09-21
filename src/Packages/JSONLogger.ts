@@ -4,7 +4,7 @@ import { type LoggerObjectInterface, type ExceptionObjectLoggerInterface, type L
 
 export class JSONLogger implements LoggerObjectInterface {
 
-    // eslint-disable-next-line max-params
+    // eslint-disable-next-line better-max-params/better-max-params
     public constructor(
         public type: LogLevel,
         public index: string,

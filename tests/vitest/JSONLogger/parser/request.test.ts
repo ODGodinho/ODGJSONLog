@@ -1,6 +1,6 @@
 import { type RequestInterface } from "@odg/message";
 
-import { JSONLoggerPlugin } from "../../../../src";
+import { JSONLoggerPlugin } from "~";
 
 describe("Test Is Message Request", () => {
     const logger = new JSONLoggerPlugin("");

@@ -3,10 +3,7 @@ name: Ci Job
 on:
   push:
     branches: [ main, master ]
-  pull_request:
-
-env:
-  IS_PACKAGE: ${{ secrets.IS_PACKAGE }}
+  pull_request_target:
 
 jobs:
   review-and-test:
@@ -31,7 +28,7 @@ jobs:
         name: Review Dog Pull Request
         uses: reviewdog/action-eslint@v1
         with:
-          reporter: github-check
+          reporter: github-pr-review
           github_token: ${{ secrets.GH_TOKEN }}
           eslint_flags: '--ext .js,.jsx,.ts,.tsx,.json,.jsonc,.json5,.yml,.yaml,.xml,.txt,.svg,.properties,.gradle,.java,.cpp,.c,.cs,.html,.css,.groovy,.gitignore,.npmignore,.toml,.env,.example,.sample,.ini,.php,.bat,.powershell,.ps1,.sh,.bash,.eslintrc .'
           fail_on_error: true
@@ -47,9 +44,12 @@ jobs:
           name: codecov-umbrella
           fail_ci_if_error: true
           verbose: true
-      - name: Check valid to semantic-release
-        if: ${{ github.event_name == 'push' && env.IS_PACKAGE == 'true' }}
+      - if: ${{ github.event_name == 'push' && vars.IS_PACKAGE == 'true' }}
+        name: Install semantic release
+        run: yarn global add semantic-release
+      - if: ${{ github.event_name == 'push' && vars.IS_PACKAGE == 'true' }}
+        name: Run semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: yarn semantic-release
+        run: semantic-release

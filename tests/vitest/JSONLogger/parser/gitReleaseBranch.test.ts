@@ -24,9 +24,11 @@ describe("Test Git Release/Branch", () => {
     test("Test Mock Exception", async () => {
         await expect(logger.logJSON(LogLevel.DEBUG, "test")).resolves.toEqual(
             expect.objectContaining({
-                index: "appName",
-                gitRelease: undefined,
-                gitBranch: undefined,
+                "index": "appName",
+                "git": {
+                    "branch": undefined,
+                    "release": undefined,
+                },
             }),
         );
     });

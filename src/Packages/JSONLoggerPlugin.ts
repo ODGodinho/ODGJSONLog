@@ -51,19 +51,21 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
     }
 
     public async logJSON(level: LogLevel, message: unknown): Promise<JSONLogger> {
-        return new JSONLogger(
-            level,
-            this.appName,
-            this.getInstance(),
-            JSON.stringify(message) || util.format(message),
-            new Date(),
-            this.identifier,
-            await this.getGitRelease().catch(() => void 0),
-            await this.getGitBranch().catch(() => void 0),
-            await this.parseException(message),
-            await this.parseExceptionPreview(message),
-            await this.parseRequest(message),
-        );
+        return new JSONLogger({
+            type: level,
+            index: this.appName,
+            instance: this.getInstance(),
+            message: JSON.stringify(message) || util.format(message),
+            createdAt: new Date(),
+            identifier: this.identifier,
+            git: {
+                release: await this.getGitRelease().catch(() => void 0),
+                branch: await this.getGitBranch().catch(() => void 0),
+            },
+            exception: await this.parseException(message),
+            exceptionPreview: await this.parseExceptionPreview(message),
+            request: await this.parseRequest(message),
+        });
     }
 
     /**

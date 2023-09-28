@@ -1,13 +1,13 @@
 import { type LogLevel } from "@odg/log";
 
 import {
+    type LoggerStringInterface,
+    type LoggerRequestStringInterface,
     type GitLoggerInterface,
-    type LoggerObjectInterface,
     type ExceptionObjectLoggerInterface,
-    type LoggerObjectRequestInterface,
 } from "..";
 
-export class JSONLogger implements LoggerObjectInterface {
+export class JSONLoggerString {
 
     public type: LogLevel;
 
@@ -27,10 +27,10 @@ export class JSONLogger implements LoggerObjectInterface {
 
     public exceptionPreview?: ExceptionObjectLoggerInterface[];
 
-    public request?: LoggerObjectRequestInterface;
+    public declare request?: LoggerRequestStringInterface;
 
     // eslint-disable-next-line max-statements
-    public constructor(options: LoggerObjectInterface) {
+    public constructor(options: LoggerStringInterface) {
         this.type = options.type;
         this.index = options.index;
         this.instance = options.instance;

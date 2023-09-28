@@ -86,6 +86,9 @@ const processor = new JSONLoggerPlugin(
 logger.pushHandler(consoleLogger);
 logger.pushProcessor(processor);
 
+// If you need convert Request and response request headers body, params in string before log
+logger.pushProcessor(RequestStringPlugin);
+
 plugin.setIdentifier(randomUUID());
 ```
 
@@ -123,7 +126,9 @@ LOG JSON Return
         "url": "string",
         "baseURL": "string",
         "method": "Methods | string",
-        "headers": "HttpHeadersInterface",
+        "headers": {
+            "header-key": "header-value"
+        },
         "params": "ParametersInterface",
         "data": "RequestData",
         "timeout": "number",

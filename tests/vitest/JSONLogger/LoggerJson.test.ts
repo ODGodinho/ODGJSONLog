@@ -1,5 +1,7 @@
-import { UnknownException } from "@odg/exception";
+import { Exception, UnknownException } from "@odg/exception";
 import { LogLevel } from "@odg/log";
+import { type RequestInterface } from "@odg/message";
+import { MessageException } from "@odg/message";
 import { vi } from "vitest";
 
 import { JSONLoggerPlugin, JSONParserUnknownException } from "../../../src";
@@ -35,5 +37,39 @@ describe("Test Log Json", () => {
             message: "test",
             context: {},
         })).resolves.not.toThrow();
+    });
+
+    test("Log Json Message Exception", async () => {
+        const logger2 = new JSONLoggerPlugin("");
+        const request = {
+            url: "/my-test-url",
+        };
+        await expect(logger2["getMessage"](new MessageException("teste", undefined, undefined, request, {
+            data: "", headers: {}, status: 200, request: request,
+        }))).resolves.toBe("/my-test-url");
+    });
+
+    test("Log Json Recursive", async () => {
+        const logger2 = new JSONLoggerPlugin("");
+        const log = { test: 1, log: {} };
+        log.log = log;
+        await expect(logger2["getMessage"](log)).resolves.not.toThrow();
+    });
+
+    test("Log Json Request", async () => {
+        const logger2 = new JSONLoggerPlugin("");
+        const log: RequestInterface<unknown> = { url: "/url", method: "GET", baseURL: "http://localhost:8000" };
+        await expect(logger2["getMessage"](log)).resolves.toBe("http://localhost:8000/url");
+    });
+
+    test("Log Json Request Only BaseURL", async () => {
+        const logger2 = new JSONLoggerPlugin("");
+        const log: RequestInterface<unknown> = { method: "GET", baseURL: "http://localhost" };
+        await expect(logger2["getRequestUrl"](log)).resolves.toBe("http://localhost");
+    });
+
+    test("Log Json Request", async () => {
+        const logger2 = new JSONLoggerPlugin("");
+        await expect(logger2["getMessage"](new Exception("Example"))).resolves.toBe("Example");
     });
 });

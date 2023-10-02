@@ -55,7 +55,7 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
             type: level,
             index: this.appName,
             instance: this.getInstance(),
-            message: JSON.stringify(message) || util.format(message),
+            message: await this.getMessage(message),
             createdAt: new Date(),
             identifier: this.identifier,
             git: {
@@ -238,6 +238,24 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
     protected isRequestMessage(message: unknown): message is RequestInterface<unknown> {
         return Object.prototype.hasOwnProperty.call(message, "url")
             && Object.prototype.hasOwnProperty.call(message, "method");
+    }
+
+    private async getMessage(message: unknown): Promise<string> {
+        if (this.isRequestMessage(message)) return this.getRequestUrl(message);
+        if (this.isResponseMessage(message) || message instanceof MessageException) {
+            return this.getRequestUrl(message.request);
+        }
+
+        if (message instanceof Error) return message.message;
+        try {
+            return JSON.stringify(message) || util.format(message);
+        } catch {
+            return util.format(message);
+        }
+    }
+
+    private async getRequestUrl(request?: RequestInterface<unknown>): Promise<string> {
+        return `${request?.baseURL ?? ""}${request?.url ?? ""}`;
     }
 
 }

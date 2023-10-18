@@ -12,7 +12,7 @@ export function functionException(): ExceptionType {
             functionName: "Module.functionException",
             fileLine: 5, // Top line number
             fileColumn: 23, // Top column number
-            fileException: `${process.cwd()}/tests/vitest/Helpers/functionException.ts`,
+            fileException: `${process.cwd()}\\tests\\vitest\\Helpers\\functionException.ts`,
         },
     };
 }

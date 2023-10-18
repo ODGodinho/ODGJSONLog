@@ -3,6 +3,7 @@ import { JSONParserUnknownException } from "../../../src";
 
 export function functionException(): ExceptionType {
     const exception = new JSONParserUnknownException("functionExample");
+    const path = process.cwd().includes("\\") ? "\\" : "/";
 
     return {
         exception: exception,
@@ -12,7 +13,7 @@ export function functionException(): ExceptionType {
             functionName: "Module.functionException",
             fileLine: 5, // Top line number
             fileColumn: 23, // Top column number
-            fileException: `${process.cwd()}\\tests\\vitest\\Helpers\\functionException.ts`,
+            fileException: `${process.cwd()}${path}tests${path}vitest${path}Helpers${path}functionException.ts`,
         },
     };
 }

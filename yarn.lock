@@ -517,9 +517,9 @@
     comment-parser "*"
 
 "@odg/exception@*":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@odg/exception/-/exception-1.5.0.tgz#18d5e571f647812ec9386617e6c6d13154d7a170"
-  integrity sha512-kWLKHk8Md4WBXNJhjyvexXyZzEn42HXT13W2kNQM5I0/F8dYMLsrHhFGj2GyLwhGlXOu52pvSTYOYtAF5bX7gw==
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/@odg/exception/-/exception-1.5.1.tgz#5788d05aabae68cb2212e128614a9c8670227a36"
+  integrity sha512-sbBv4bw/LKfEG4QHcoqX0i3leIMOPJxoR21BcAzxaMlwxS+fSdBaJIXmGwmOmOW99yJiyG1NJxjmBCFxQC+EUQ==
 
 "@odg/json-log@*":
   version "1.2.2"
@@ -532,25 +532,25 @@
     error-stack-parser "^2.1.4"
 
 "@odg/log@*":
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/@odg/log/-/log-1.6.0.tgz#175669f50b85f1a47ceb7f6d0105d02ad53f83e7"
-  integrity sha512-TSASiU3YjJHwpUj+u3ZehWDDG3OrHb1yWRV2JboV+8P3psjvS0xhUlxGnBO5mDXSV0UmnpoKC2nJnYRslsmXKA==
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/@odg/log/-/log-1.6.1.tgz#631e4256d89049c2a58d259158691c7ddddf0619"
+  integrity sha512-0YKXtJM2wI7Hs+ddo3rFppBKXFq/ckfmJUrraw0PLmOW5pr9GxuUl01ahS8HO2pJ49YL7vbmvYUEkisGQTbqfg==
   dependencies:
     "@odg/exception" "*"
     "@odg/json-log" "*"
     chalk "^4"
 
 "@odg/message@*":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@odg/message/-/message-1.2.1.tgz#8401d5749cc304d29f10fa8d8b369c998570b5b4"
-  integrity sha512-0sgCfxnP3LZyHXrSYWoF9zHZRRsS1ip5UzEKWTXtlEPgqng4Qiqav9h2ZOK/nEKY6mKfW0QpuJr7My0wI43awQ==
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@odg/message/-/message-1.2.2.tgz#a0261ae9064e21647514dd77ce8455056bfd6b1d"
+  integrity sha512-qn4woZr0uklVSdr1Zbd+7aV70I3BhKOi/Enz/7YUmNtf5qfwmepKK41ujlPDlpw1YN4lj/kDpijmvh2yC2DOfQ==
   dependencies:
     "@odg/exception" "*"
 
 "@odg/tsconfig@*":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@odg/tsconfig/-/tsconfig-1.2.0.tgz#d3e8128220f196a652d9138b1b0802ececafd135"
-  integrity sha512-vMAYFdfllV7a50YUygfGC52xfGAY0VO2ytdlXdmMxVnBWN789glhXAkJvJp08eb+fm92gamTwmEgPNLeEuk2yw==
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@odg/tsconfig/-/tsconfig-1.2.1.tgz#51fee19e7b5a34296962ec62c7c06a70798c041e"
+  integrity sha512-1/CCGqV2Oge97/SSAcGV2Wxs4j6YOeHwMLkooBLpi+mm+EaOLma/YAKq6YbDEvaOh3xpQPf1QYY5/eHY3YOqLQ==
 
 "@pkgjs/parseargs@^0.11.0":
   version "0.11.0"

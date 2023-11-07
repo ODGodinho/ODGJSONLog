@@ -90,6 +90,32 @@ describe("Test parse request", async () => {
         spy.mockReset();
     });
 
+    test("Test without with empty response", async () => {
+        const newParser = await plugin.parser({
+            message: new JSONLogger({
+                index: "example",
+                createdAt: new Date(),
+                instance: "unknown",
+                message: "request",
+                type: LogLevel.INFO,
+                request: {
+                    url: "https://test",
+                    response: undefined,
+                },
+            }),
+            level: LogLevel.INFO,
+            original: {
+                message: "",
+                level: LogLevel.INFO,
+            },
+        });
+        expect(newParser.message).toBeInstanceOf(JSONLoggerString);
+        expect((newParser.message as JSONLoggerString).request).toMatchObject({
+            url: "https://test",
+            response: undefined,
+        });
+    });
+
     test("Test without request", async () => {
         const newParser = await plugin.parser({
             message: new JSONLogger({

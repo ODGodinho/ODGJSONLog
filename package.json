@@ -61,7 +61,7 @@
         "@odg/tsconfig": "*",
         "@types/node": ">=18",
         "@vitest/coverage-v8": "*",
-        "concurrently": "^8.2.1",
+        "concurrently": "^8.2.2",
         "eslint": "*",
         "husky": "^8.0.3",
         "lint-staged": "^15.0.1",
@@ -69,7 +69,7 @@
         "tsc-alias": "^1.8.8",
         "typescript": "^5.2.2",
         "vite-tsconfig-paths": "*",
-        "vitest": "^0.34.5"
+        "vitest": "^0.34.6"
     },
     "dependencies": {
         "@odg/exception": "*",

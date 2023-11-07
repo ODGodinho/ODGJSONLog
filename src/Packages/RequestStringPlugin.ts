@@ -38,7 +38,7 @@ export class RequestStringPlugin implements LoggerPluginInterface {
         if (!request) return;
 
         return Object.fromEntries(Object.entries(request).map(([ key, value ]) => {
-            if (key === "response") {
+            if (key === "response" && value) {
                 return [ key, this.recordToStringValues(request.response!) ];
             }
 

@@ -1,3 +1,5 @@
 export * from "./Exceptions";
-export * from "./Interfaces";
+
+export type * from "./Interfaces";
+
 export * from "./Packages";

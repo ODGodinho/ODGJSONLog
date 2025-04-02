@@ -7,7 +7,9 @@ import {
     type LoggerParserInterface,
     type LoggerPluginInterface,
 } from "@odg/log";
-import { MessageException, type ResponseInterface, type RequestInterface } from "@odg/message";
+import {
+    MessageException, type ResponseInterface, type RequestInterface, MessageResponse, ODGMessage,
+} from "@odg/message";
 import ErrorStackParser from "error-stack-parser";
 
 import { JSONParserUnknownException } from "../Exceptions/JSONParserUnknownException";
@@ -175,11 +177,7 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
 
         return {
             ...request,
-            response: response && {
-                ...(Object.fromEntries(
-                    Object.entries(response).filter(([ key ]) => key !== "request"),
-                ) as Omit<ResponseInterface<unknown, unknown>, "request">),
-            },
+            response: response,
         };
     }
 
@@ -189,11 +187,10 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
      * @memberof JSONLoggerPlugin
      * @protected
      * @param {unknown} message Possible Request/Message
-     * @returns {Promise<ResponseInterface<unknown, unknown> | undefined>}
+     * @returns {Promise<ResponseInterface<unknown> | undefined>}
      */
-    protected async getResponseMessage(message: unknown): Promise<ResponseInterface<unknown, unknown> | undefined> {
-        if (message instanceof MessageException) return message.response;
-        if (this.isResponseMessage(message)) return message;
+    protected async getResponseMessage(message: unknown): Promise<ResponseInterface<unknown> | undefined> {
+        if (message instanceof MessageException || message instanceof MessageResponse) return message.response;
 
         return undefined;
     }
@@ -207,9 +204,8 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
      * @returns {Promise<RequestInterface<unknown> | undefined>}
      */
     protected async getRequestMessage(message: unknown): Promise<RequestInterface<unknown> | undefined> {
-        if (message instanceof MessageException) return message.request;
+        if (message instanceof MessageException || message instanceof MessageResponse) return message.request;
         if (this.isRequestMessage(message)) return message;
-        if (this.isResponseMessage(message)) return message.request;
 
         return undefined;
     }
@@ -224,15 +220,8 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
      */
     protected async isRequestOrResponseMessage(message: unknown): Promise<boolean> {
         return message instanceof MessageException
-            || this.isResponseMessage(message)
+            || message instanceof MessageResponse
             || this.isRequestMessage(message);
-    }
-
-    protected isResponseMessage(message: unknown): message is ResponseInterface<unknown, unknown> {
-        return Object.prototype.hasOwnProperty.call(message, "data")
-            && Object.prototype.hasOwnProperty.call(message, "status")
-            && Object.prototype.hasOwnProperty.call(message, "headers")
-            && Object.prototype.hasOwnProperty.call(message, "request");
     }
 
     protected isRequestMessage(message: unknown): message is RequestInterface<unknown> {
@@ -241,13 +230,18 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
     }
 
     private async getMessage(message: unknown): Promise<string> {
-        if (this.isRequestMessage(message)) return this.getRequestUrl(message);
-        if (this.isResponseMessage(message) || message instanceof MessageException) {
+        if (message instanceof MessageResponse || ODGMessage.isMessageError(message)) {
             return this.getRequestUrl(message.request);
+        }
+
+        if (this.isRequestMessage(message)) {
+            return this.getRequestUrl(message);
         }
 
         if (message instanceof Error) return message.message;
         try {
+            if (typeof message === "string") return message;
+
             return JSON.stringify(message) || util.format(message);
         } catch {
             return util.format(message);

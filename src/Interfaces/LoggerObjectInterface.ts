@@ -1,6 +1,5 @@
 import { type LogLevel } from "@odg/log";
-import { type RequestInterface } from "@odg/message";
-import { type ResponseInterface } from "@odg/message/dist/interfaces/response";
+import { type RequestInterface, type ResponseInterface } from "@odg/message";
 
 export interface ExceptionObjectLoggerInterface {
     "type": string;
@@ -13,7 +12,7 @@ export interface ExceptionObjectLoggerInterface {
 }
 
 export type LoggerObjectRequestInterface = RequestInterface<unknown> & {
-    response?: Omit<ResponseInterface<unknown, unknown>, "request">;
+    response?: ResponseInterface<unknown>;
 };
 
 export interface GitLoggerInterface {

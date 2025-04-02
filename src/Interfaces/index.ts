@@ -1,1 +1,1 @@
-export * from "./LoggerObjectInterface";
+export type * from "./LoggerObjectInterface";

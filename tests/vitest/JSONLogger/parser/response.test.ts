@@ -1,4 +1,4 @@
-import { type ResponseInterface } from "@odg/message";
+import { MessageResponse } from "@odg/message";
 
 import { JSONLoggerPlugin } from "~";
 
@@ -8,18 +8,6 @@ const headers = {
 
 describe("Testis  Message Response", () => {
     const logger = new JSONLoggerPlugin("");
-    test("Test valid message response", async () => {
-        const response: ResponseInterface<unknown, unknown> = {
-            data: null,
-            status: 200,
-            headers: headers,
-            request: {},
-        };
-
-        const isMessageResponse = logger["isResponseMessage"](response);
-
-        expect(isMessageResponse).toEqual(true);
-    });
 
     test("Test is invalid message response", async () => {
         const response = {
@@ -36,15 +24,17 @@ describe("Testis  Message Response", () => {
 describe("Test Parser Response", () => {
     const logger = new JSONLoggerPlugin("");
     test("Parser Request Message", async () => {
-        const response: ResponseInterface<unknown, unknown> = {
-            data: null,
-            status: 200,
-            headers: headers,
-            request: {
+        const response: MessageResponse = new MessageResponse(
+            {
                 url: "null",
                 method: "GET",
             },
-        };
+            {
+                data: null,
+                status: 200,
+                headers: headers,
+            },
+        );
 
         const requestParsed = await logger["parseRequest"](response);
 

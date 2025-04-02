@@ -1,7 +1,6 @@
 import { Exception, UnknownException } from "@odg/exception";
 import { LogLevel } from "@odg/log";
-import { type RequestInterface } from "@odg/message";
-import { MessageException } from "@odg/message";
+import { type RequestInterface, MessageException } from "@odg/message";
 import { vi } from "vitest";
 
 import { JSONLoggerPlugin, JSONParserUnknownException } from "../../../src";
@@ -51,7 +50,7 @@ describe("Test Log Json", () => {
 
     test("Log Json Recursive", async () => {
         const logger2 = new JSONLoggerPlugin("");
-        const log = { test: 1, log: {} };
+        const log = { test: 1, log: {}};
         log.log = log;
         await expect(logger2["getMessage"](log)).resolves.not.toThrow();
     });

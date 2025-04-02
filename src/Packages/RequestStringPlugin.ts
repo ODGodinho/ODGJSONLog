@@ -1,4 +1,5 @@
 import { type LoggerParserInterface, type LoggerPluginInterface } from "@odg/log";
+import { type ResponseInterface } from "@odg/message";
 
 import { JSONParserException, JSONParserUnknownException } from "../Exceptions";
 import { type LoggerRequestStringInterface, type LoggerObjectRequestInterface } from "../Interfaces";
@@ -46,7 +47,7 @@ export class RequestStringPlugin implements LoggerPluginInterface {
         })) as LoggerRequestStringInterface;
     }
 
-    private recordToStringValues(response: Record<string, unknown>): Record<string, unknown> | undefined {
+    private recordToStringValues(response: ResponseInterface<unknown>): Record<string, unknown> | undefined {
         return Object.fromEntries(
             Object.entries(response)
                 .map(([ key, value ]) => [ key, typeof value === "object" ? JSON.stringify(value) : value ]),

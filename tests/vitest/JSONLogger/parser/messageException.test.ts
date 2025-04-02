@@ -11,7 +11,6 @@ describe("Test Message Exception", () => {
         data: null,
         status: 200,
         headers: {},
-        request: request,
     });
 
     test("Test request message by exception", async () => {
@@ -29,9 +28,6 @@ describe("Test Message Exception", () => {
             data: null,
             status: 200,
             headers: {},
-            request: {
-                url: "example",
-            },
         });
     });
 });

@@ -10,13 +10,13 @@
         "url": "https://github.com/ODGodinho/ODG-JSONLog"
     },
     "scripts": {
-        "build": "rimraf dist && tsc --project ./tsconfig.build.json",
-        "build:watch": "rimraf dist && tsc --project ./tsconfig.build.json -w",
-        "dev": "ts-node ./src/index.ts",
-        "start": "node ./dist/index.ts",
+        "build": "rimraf dist/ && tsc --project ./tsconfig.build.json && tsc-alias -p tsconfig.build.json",
+        "build:watch": "npm run build && (concurrently \"tsc --project ./tsconfig.build.json -w\" \"tsc-alias -p tsconfig.build.json -w\")",
+        "dev": "tsx ./src/index.ts",
+        "start": "node ./dist/index.js",
         "lint": "eslint --ext .js,.jsx,.ts,.tsx,.json,.jsonc,.json5,.yml,.yaml,.xml,.txt,.svg,.properties,.gradle,.java,.cpp,.c,.cs,.html,.css,.groovy,.gitignore,.npmignore,.toml,.env,.example,.sample,.ini,.php,.bat,.powershell,.ps1,.sh,.bash,.eslintrc",
         "lint:fix": "eslint --ext .js,.jsx,.ts,.tsx,.json,.jsonc,.json5,.yml,.yaml,.xml,.txt,.svg,.properties,.gradle,.java,.cpp,.c,.cs,.html,.css,.groovy,.gitignore,.npmignore,.toml,.env,.example,.sample,.ini,.php,.bat,.powershell,.ps1,.sh,.bash,.eslintrc --fix",
-        "prepare": "husky install",
+        "prepare": "husky",
         "test": "vitest run",
         "test:ci": "vitest run --passWithNoTests",
         "test:watch": "vitest --watch"
@@ -59,17 +59,16 @@
     "devDependencies": {
         "@odg/eslint-config": "*",
         "@odg/tsconfig": "*",
-        "@types/node": ">=18",
-        "@vitest/coverage-v8": "*",
-        "concurrently": "^8.2.2",
-        "eslint": "*",
-        "husky": "^8.0.3",
-        "lint-staged": "^15.0.1",
-        "rimraf": "^5.0.5",
-        "tsc-alias": "^1.8.8",
-        "typescript": "^5.2.2",
-        "vite-tsconfig-paths": "*",
-        "vitest": "^0.34.6"
+        "@types/node": ">=22",
+        "@vitest/coverage-istanbul": "^1",
+        "concurrently": "^9.1.2",
+        "husky": "^9.1.7",
+        "lint-staged": "^15.5.0",
+        "rimraf": "*",
+        "tsc-alias": "^1.8.13",
+        "typescript": "^5.8.2",
+        "vite-tsconfig-paths": "^4",
+        "vitest": "^1"
     },
     "dependencies": {
         "@odg/exception": "*",

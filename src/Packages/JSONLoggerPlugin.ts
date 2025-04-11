@@ -190,7 +190,7 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
      * @returns {Promise<ResponseInterface<unknown> | undefined>}
      */
     protected async getResponseMessage(message: unknown): Promise<ResponseInterface<unknown> | undefined> {
-        if (ODGMessage.isMessageError(message) || message instanceof MessageResponse) return message.response;
+        if (ODGMessage.isMessageError(message) || MessageResponse.isMessageResponse(message)) return message.response;
 
         return undefined;
     }
@@ -204,7 +204,7 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
      * @returns {Promise<RequestInterface<unknown> | undefined>}
      */
     protected async getRequestMessage(message: unknown): Promise<RequestInterface<unknown> | undefined> {
-        if (ODGMessage.isMessageError(message) || message instanceof MessageResponse) return message.request;
+        if (ODGMessage.isMessageError(message) || MessageResponse.isMessageResponse(message)) return message.request;
         if (this.isRequestMessage(message)) return message;
 
         return undefined;
@@ -220,7 +220,7 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
      */
     protected async isRequestOrResponseMessage(message: unknown): Promise<boolean> {
         return ODGMessage.isMessageError(message)
-            || message instanceof MessageResponse
+            || MessageResponse.isMessageResponse(message)
             || this.isRequestMessage(message);
     }
 
@@ -230,7 +230,7 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
     }
 
     private async getMessage(message: unknown): Promise<string> {
-        if (message instanceof MessageResponse || ODGMessage.isMessageError(message)) {
+        if (MessageResponse.isMessageResponse(message) || ODGMessage.isMessageError(message)) {
             return this.getRequestUrl(message.request);
         }
 

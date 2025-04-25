@@ -172,7 +172,10 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
      */
     protected async parseRequest(message: unknown): Promise<LoggerObjectRequestInterface | undefined> {
         if (!await this.isRequestOrResponseMessage(message)) return;
-        const request = await this.getRequestMessage(message);
+        const request = Object.fromEntries(
+            Object.entries(await this.getRequestMessage(message) ?? {})
+                .filter(([ key ]) => !key.startsWith("$")),
+        );
         const response = await this.getResponseMessage(message);
 
         return {

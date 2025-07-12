@@ -25,7 +25,7 @@ export class JSONLoggerString {
 
     public exception?: ExceptionObjectLoggerInterface;
 
-    public exceptionPreview?: ExceptionObjectLoggerInterface[];
+    public exceptionPrevious?: ExceptionObjectLoggerInterface[];
 
     public declare request?: LoggerRequestStringInterface;
 
@@ -39,7 +39,7 @@ export class JSONLoggerString {
         this.identifier = options.identifier;
         this.git = options.git;
         this.exception = options.exception;
-        this.exceptionPreview = options.exceptionPreview;
+        this.exceptionPrevious = options.exceptionPrevious;
         this.request = options.request;
     }
 

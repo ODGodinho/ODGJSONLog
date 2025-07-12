@@ -28,7 +28,7 @@ export interface LoggerObjectInterface {
     identifier?: string;
     git?: GitLoggerInterface;
     exception?: ExceptionObjectLoggerInterface;
-    exceptionPreview?: ExceptionObjectLoggerInterface[];
+    exceptionPrevious?: ExceptionObjectLoggerInterface[];
     request?: LoggerObjectRequestInterface;
     createdAt: Date;
 }

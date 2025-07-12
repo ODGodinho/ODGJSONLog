@@ -34,7 +34,7 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
 
     public constructor(
         protected readonly appName: string,
-        protected readonly maxExceptionPreview: number = 10,
+        protected readonly maxExceptionPrevious: number = 10,
         protected instanceId?: string,
     ) { }
 
@@ -56,20 +56,29 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
     }
 
     public async logJSON(level: LogLevel, message: unknown): Promise<JSONLogger> {
+        const [ newMessage, release, branch, exception, previousException, request ] = await Promise.all([
+            this.getMessage(message),
+            this.getGitRelease().catch(() => void 0),
+            this.getGitBranch().catch(() => void 0),
+            this.parseException(message),
+            this.parseExceptionPrevious(message),
+            this.parseRequest(message),
+        ]);
+
         return new JSONLogger({
             type: level,
             index: this.appName,
             instance: this.getInstance(),
-            message: await this.getMessage(message),
+            message: newMessage,
             createdAt: new Date(),
             identifier: this.identifier,
             git: {
-                release: this.git.release! || await this.getGitRelease().catch(() => void 0),
-                branch: this.git.branch! || await this.getGitBranch().catch(() => void 0),
+                release: release! || undefined,
+                branch: branch! || undefined,
             },
-            exception: await this.parseException(message),
-            exceptionPreview: await this.parseExceptionPreview(message),
-            request: await this.parseRequest(message),
+            exception: exception,
+            exceptionPrevious: previousException,
+            request: request,
         });
     }
 
@@ -131,6 +140,8 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
      * @returns {Promise<string>}
      */
     protected async getGitRelease(): Promise<string> {
+        if (typeof this.git.release === "string") return this.git.release;
+
         const command = promisify(exec);
         const gitVersion = await command("git describe --tags --abbrev=41");
 
@@ -143,6 +154,8 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
      * @returns {Promise<string>}
      */
     protected async getGitBranch(): Promise<string> {
+        if (typeof this.git.branch === "string") return this.git.branch;
+
         const command = promisify(exec);
         const gitVersion = await command("git rev-parse --abbrev-ref HEAD");
 
@@ -171,12 +184,12 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
     }
 
     /**
-     * If Message is a Exception, get All Exception Preview and parse to ExceptionObjectLoggerInterface
+     * If Message is a Exception, get All Exception Previous and parse to ExceptionObjectLoggerInterface
      *
      * @param {unknown} exception Possible Exception
      * @returns {Promise<ExceptionObjectLoggerInterface[] | undefined>}
      */
-    protected async parseExceptionPreview(exception: unknown): Promise<ExceptionObjectLoggerInterface[] | undefined> {
+    protected async parseExceptionPrevious(exception: unknown): Promise<ExceptionObjectLoggerInterface[] | undefined> {
         if (!(exception instanceof Exception)) return;
 
         const exceptionCollection: ExceptionObjectLoggerInterface[] = [];
@@ -187,7 +200,7 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
             const parsedException = await this.parseException(exceptionBase);
             if (parsedException) exceptionCollection.push(parsedException);
             exceptionBase = exceptionBase?.getPrevious();
-        } while (exceptionBase && ++exceptionCount < this.maxExceptionPreview);
+        } while (exceptionBase && ++exceptionCount < this.maxExceptionPrevious);
 
         return exceptionCollection;
     }

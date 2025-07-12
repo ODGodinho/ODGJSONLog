@@ -121,7 +121,7 @@ LOG JSON Return
         "fileColumn": "number", // 1
         "stack": "stack",
     },
-    "exceptionPreview": null, // OPTIONAL: This is preview second property on new Exceptions("Example", error);
+    "exceptionPrevious": null, // OPTIONAL: This is previous second property on new Exceptions("Example", error);
     "request": {
         "url": "string",
         "baseURL": "string",

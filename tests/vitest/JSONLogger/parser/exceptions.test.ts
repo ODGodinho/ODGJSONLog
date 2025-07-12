@@ -1,7 +1,6 @@
 import { Exception } from "@odg/exception";
 
-import { type ExceptionType } from "@types/Exceptions";
-
+import { type ExceptionType } from "../../../../@types/Exceptions";
 import { JSONLoggerPlugin } from "../../../../src";
 import exceptionsCascade from "../../Helpers/exceptionsCascade";
 import { functionException } from "../../Helpers/functionException";
@@ -21,8 +20,6 @@ describe("Test Exception Parser", () => {
         expect(exceptionObject).toMatchObject({
             ...exception.data,
         });
-
-        return true;
     });
 
     test("Test Exception Without Stack", async () => {

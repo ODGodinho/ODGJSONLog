@@ -29,7 +29,6 @@ export class JSONLogger implements LoggerObjectInterface {
 
     public request?: LoggerObjectRequestInterface;
 
-    // eslint-disable-next-line max-statements
     public constructor(options: LoggerObjectInterface) {
         this.type = options.type;
         this.index = options.index;

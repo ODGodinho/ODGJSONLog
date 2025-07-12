@@ -20,14 +20,12 @@ describe("Test Preview Exception Parser", () => {
         const exceptionObjects = await logger["parseExceptionPreview"](exceptionCascade.exception);
 
         if (currentException === 0) {
-            expect(exceptionCascade.exception.preview).toBeUndefined();
+            expect(exceptionCascade.exception.getPrevious()).toBeUndefined();
 
             return;
         }
 
         expect(exceptionObjects).toBeDefined();
         expect(exceptionObjects?.length).toEqual(currentException);
-
-        return true;
     });
 });

@@ -14,6 +14,7 @@ import ErrorStackParser from "error-stack-parser";
 
 import { JSONParserUnknownException } from "../Exceptions/JSONParserUnknownException";
 import {
+    type GitLoggerInterface,
     type LoggerObjectRequestInterface,
     type ExceptionObjectLoggerInterface,
 } from "../Interfaces";
@@ -29,10 +30,12 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
      */
     protected identifier?: string;
 
+    protected git: GitLoggerInterface = {};
+
     public constructor(
         protected readonly appName: string,
         protected readonly maxExceptionPreview: number = 10,
-        protected readonly instanceId?: string,
+        protected instanceId?: string,
     ) { }
 
     /**
@@ -61,8 +64,8 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
             createdAt: new Date(),
             identifier: this.identifier,
             git: {
-                release: await this.getGitRelease().catch(() => void 0),
-                branch: await this.getGitBranch().catch(() => void 0),
+                release: this.git.release! || await this.getGitRelease().catch(() => void 0),
+                branch: this.git.branch! || await this.getGitBranch().catch(() => void 0),
             },
             exception: await this.parseException(message),
             exceptionPreview: await this.parseExceptionPreview(message),
@@ -78,6 +81,33 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
      */
     public setIdentifier(identifier: string): void {
         this.identifier = identifier;
+    }
+
+    /**
+     * Define device instance name
+     *
+     * @param {string} instance name of instance
+     */
+    public setInstance(instance: string): void {
+        this.instanceId = instance;
+    }
+
+    /**
+     * Define current git Release
+     *
+     * @param {string} release name of instance
+     */
+    public setGitRelease(release: string): void {
+        this.git.release = release;
+    }
+
+    /**
+     * Define current git Branch
+     *
+     * @param {string} branch name of instance
+     */
+    public setGitBranch(branch: string): void {
+        this.git.branch = branch;
     }
 
     /**
@@ -104,7 +134,7 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
         const command = promisify(exec);
         const gitVersion = await command("git describe --tags --abbrev=41");
 
-        return gitVersion.stdout.trim();
+        return this.git.release ??= gitVersion.stdout.trim();
     }
 
     /**
@@ -116,7 +146,7 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
         const command = promisify(exec);
         const gitVersion = await command("git rev-parse --abbrev-ref HEAD");
 
-        return gitVersion.stdout.trim();
+        return this.git.branch ??= gitVersion.stdout.trim();
     }
 
     /**
@@ -150,13 +180,13 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
         if (!(exception instanceof Exception)) return;
 
         const exceptionCollection: ExceptionObjectLoggerInterface[] = [];
-        let exceptionBase = exception.preview;
+        let exceptionBase = exception.getPrevious();
         let exceptionCount = 0;
 
         do {
             const parsedException = await this.parseException(exceptionBase);
             if (parsedException) exceptionCollection.push(parsedException);
-            exceptionBase = exceptionBase?.preview;
+            exceptionBase = exceptionBase?.getPrevious();
         } while (exceptionBase && ++exceptionCount < this.maxExceptionPreview);
 
         return exceptionCollection;

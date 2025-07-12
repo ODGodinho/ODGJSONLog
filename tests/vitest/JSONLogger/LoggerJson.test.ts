@@ -44,7 +44,7 @@ describe("Test Log Json", () => {
             url: "/my-test-url",
         };
         await expect(logger2["getMessage"](new MessageException("teste", undefined, undefined, request, {
-            data: "", headers: {}, status: 200, request: request,
+            data: "", headers: {}, status: 200,
         }))).resolves.toBe("/my-test-url");
     });
 

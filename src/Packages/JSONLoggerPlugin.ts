@@ -8,15 +8,17 @@ import {
     type LoggerPluginInterface,
 } from "@odg/log";
 import {
-    type ResponseInterface, type RequestInterface, MessageResponse, ODGMessage,
+    type RequestInterface,
+    type ResponseInterface,
+    ODGMessage,
 } from "@odg/message";
 import ErrorStackParser from "error-stack-parser";
 
 import { JSONParserUnknownException } from "../Exceptions/JSONParserUnknownException";
 import {
+    type ExceptionObjectLoggerInterface,
     type GitLoggerInterface,
     type LoggerObjectRequestInterface,
-    type ExceptionObjectLoggerInterface,
 } from "../Interfaces";
 
 import { JSONLogger } from "./JSONLogger";
@@ -236,7 +238,7 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
      * @returns {Promise<ResponseInterface<unknown> | undefined>}
      */
     protected async getResponseMessage(message: unknown): Promise<ResponseInterface<unknown> | undefined> {
-        if (ODGMessage.isMessageError(message) || MessageResponse.isMessageResponse(message)) return message.response;
+        if (ODGMessage.isMessage(message)) return message.response;
 
         return undefined;
     }
@@ -250,7 +252,7 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
      * @returns {Promise<RequestInterface<unknown> | undefined>}
      */
     protected async getRequestMessage(message: unknown): Promise<RequestInterface<unknown> | undefined> {
-        if (ODGMessage.isMessageError(message) || MessageResponse.isMessageResponse(message)) return message.request;
+        if (ODGMessage.isMessage(message)) return message.request;
         if (this.isRequestMessage(message)) return message;
 
         return undefined;
@@ -265,8 +267,7 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
      * @returns {Promise<boolean>}
      */
     protected async isRequestOrResponseMessage(message: unknown): Promise<boolean> {
-        return ODGMessage.isMessageError(message)
-            || MessageResponse.isMessageResponse(message)
+        return ODGMessage.isMessage(message)
             || this.isRequestMessage(message);
     }
 
@@ -276,7 +277,7 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
     }
 
     private async getMessage(message: unknown): Promise<string> {
-        if (MessageResponse.isMessageResponse(message) || ODGMessage.isMessageError(message)) {
+        if (ODGMessage.isMessage(message)) {
             return this.getRequestUrl(message.request);
         }
 

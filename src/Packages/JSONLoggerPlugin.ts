@@ -128,12 +128,15 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
      */
     protected getInstance(): string {
         const instanceProperty = this.instanceId ?? "";
+        if (instanceProperty) return instanceProperty;
 
-        return instanceProperty
-            || process.env.HOSTNAME!
-            || process.env.CONTAINER_ID!
-            || process.env.DOCKER_CONTAINER_UUID!
-            || "unknown";
+        if (this.isNode()) {
+            return process.env.HOSTNAME!
+                || process.env.CONTAINER_ID!
+                || process.env.DOCKER_CONTAINER_UUID!;
+        }
+
+        return "unknown";
     }
 
     /**
@@ -143,6 +146,7 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
      */
     protected async getGitRelease(): Promise<string> {
         if (typeof this.git.release === "string") return this.git.release;
+        if (!this.isNode()) return "";
 
         const command = promisify(exec);
         const gitVersion = await command("git describe --tags --abbrev=41");
@@ -157,6 +161,7 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
      */
     protected async getGitBranch(): Promise<string> {
         if (typeof this.git.branch === "string") return this.git.branch;
+        if (!this.isNode()) return "";
 
         const command = promisify(exec);
         const gitVersion = await command("git rev-parse --abbrev-ref HEAD");
@@ -297,6 +302,10 @@ export class JSONLoggerPlugin implements LoggerPluginInterface {
 
     private async getRequestUrl(request?: RequestInterface<unknown>): Promise<string> {
         return `${request?.baseURL ?? ""}${request?.url ?? ""}`;
+    }
+
+    private isNode(): boolean {
+        return typeof process !== "undefined";
     }
 
 }
